@@ -1,5 +1,6 @@
-.heroes {
-
-  cursor: pointer;
-
+.mat-mdc-row:hover {
+  border-top: 1px solid transparent;
+  border-bottom: 1px solid transparent;
+  border-color: currentColor;
+  background: whitesmoke;
 }
