@@ -57,7 +57,13 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.development.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -69,7 +75,8 @@
               "browserTarget": "tour-of-heroes:build:production"
             },
             "development": {
-              "browserTarget": "tour-of-heroes:build:development"
+              "browserTarget": "tour-of-heroes:build:development",
+              "proxyConfig": "src/proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"

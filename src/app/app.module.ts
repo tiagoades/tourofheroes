@@ -6,6 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { CoreModule } from './core/core.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { CoreModule } from './core/core.module';
     BrowserModule,
     FormsModule,
     BrowserAnimationsModule,
+    HttpClientModule,
 
     //feature
 

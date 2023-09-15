@@ -10,7 +10,6 @@ import { Component } from '@angular/core';
       <mat-card-content>
         We couldn't find that page! Not even with x-ray vision.
       </mat-card-content>
-
       <mat-card-actions>
         <button mat-raised-button color="primary" routerLink="/" >
           Take Me Home
