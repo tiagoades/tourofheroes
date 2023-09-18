@@ -12,6 +12,7 @@ import { Location } from "@angular/common";
 export class HeroDetailComponent implements OnInit {
 
   hero!: Hero;
+  isEditing!: boolean;
 
   constructor(
     private heroesService: HeroService,
@@ -27,15 +28,37 @@ export class HeroDetailComponent implements OnInit {
 
   getHero(): void{
 
-    const id = Number(this.routes.snapshot.paramMap.get('id'));
+    const paramId = this.routes.snapshot.paramMap.get('id');
 
-    this.heroesService.getHero(id).subscribe(hero => (this.hero = hero));
+    if(paramId === 'new'){
+      this.isEditing = false;
+      this.hero = { name: ''} as Hero;
+    }else{
+      this.isEditing = true;
+      const id = Number(paramId);
+      this.heroesService.getOne(id).subscribe(hero => (this.hero = hero));
+    }
 
   }
 
   goBack(): void{
 
     this.location.back();
+
+  }
+
+  update(): void{
+    this.heroesService.update(this.hero).subscribe(() => this.goBack());
+
+  }
+
+  create(): void{
+    this.heroesService.create(this.hero).subscribe(() => this.goBack());
+  }
+
+  isFormValid(): boolean{
+
+    return !!this.hero.name.trim();
 
   }
 
