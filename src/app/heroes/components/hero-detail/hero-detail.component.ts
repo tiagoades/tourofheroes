@@ -3,6 +3,8 @@ import { HeroService } from "../../../core/services/hero.service";
 import { Hero } from "../../../core/models/hero.model";
 import { ActivatedRoute } from "@angular/router";
 import { Location } from "@angular/common";
+import { FormBuilder, Validators } from "@angular/forms";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-hero-detail',
@@ -12,12 +14,19 @@ import { Location } from "@angular/common";
 export class HeroDetailComponent implements OnInit {
 
   hero!: Hero;
-  isEditing!: boolean;
+  isEditing = false;
+
+  form = this.fb.group({
+    id:[{ value: '', disabled: true }],
+    name:['', [Validators.required, Validators.minLength(3)]],
+  })
 
   constructor(
+    private fb: FormBuilder,
     private heroesService: HeroService,
     private location: Location,
-    private routes: ActivatedRoute
+    private routes: ActivatedRoute,
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
@@ -30,13 +39,16 @@ export class HeroDetailComponent implements OnInit {
 
     const paramId = this.routes.snapshot.paramMap.get('id');
 
-    if(paramId === 'new'){
-      this.isEditing = false;
-      this.hero = { name: ''} as Hero;
-    }else{
+    if(paramId !== 'new'){
+
       this.isEditing = true;
       const id = Number(paramId);
-      this.heroesService.getOne(id).subscribe(hero => (this.hero = hero));
+      this.heroesService.getOne(id).subscribe((hero) => {
+      this.hero = hero;
+      this.form.controls['id'].setValue(String(hero.id));
+      this.form.controls['name'].setValue(hero.name);
+      });
+
     }
 
   }
@@ -48,18 +60,51 @@ export class HeroDetailComponent implements OnInit {
   }
 
   update(): void{
-    this.heroesService.update(this.hero).subscribe(() => this.goBack());
+    const { valid, value } = this.form;
 
+    if(valid){
+
+      const hero: Hero = {
+        id: this.hero.id,
+        name: value.name,
+      } as Hero;
+
+      this.heroesService.update(hero).subscribe(() => this.goBack());
+
+    }else{
+
+      this.showErrorMsg();
+
+    }
   }
 
   create(): void{
-    this.heroesService.create(this.hero).subscribe(() => this.goBack());
+
+    const { valid, value } = this.form;
+
+    if(valid){
+
+      const hero: Hero = {
+        name: value.name,
+      } as Hero;
+
+      this.heroesService.create(hero).subscribe(() => this.goBack());
+
+    }else{
+
+      this.showErrorMsg();
+
+    }
+
   }
 
-  isFormValid(): boolean{
+  private showErrorMsg(){
 
-    return !!this.hero.name.trim();
+    this.snackBar.open('Please check the errors found.', 'Ok',{
+      duration: 5000,
+      verticalPosition: 'top',
 
+    });
   }
 
 }
