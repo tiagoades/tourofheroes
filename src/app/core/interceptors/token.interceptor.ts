@@ -14,12 +14,12 @@ export class TokenInterceptor implements HttpInterceptor {
             request: HttpRequest<unknown>,
             next: HttpHandler): Observable<HttpEvent<unknown>> {
 
-    let token = localStorage.getItem('token');
+    const token = localStorage.getItem('token') || '';
 
-    if(!token){
+   /* if(!token){
       token = this.generateToken();
       localStorage.setItem('token', token);
-    }
+    }*/
 
     request = request.clone({
       setHeaders:{
@@ -31,7 +31,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   }
 
-  private generateToken(): string {
+ /* private generateToken(): string {
     return Math.random().toString(36).substring(2, 12);
-  }
+  }*/
 }
