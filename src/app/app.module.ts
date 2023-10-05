@@ -18,11 +18,11 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     HttpClientModule,
 
-    //feature
+    // third-party
+    FlexLayoutModule,
 
 
     // app
-    FlexLayoutModule,
     AppRoutingModule,
     CoreModule,
     AuthModule,

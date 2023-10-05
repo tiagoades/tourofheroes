@@ -14,7 +14,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 import { TokenInterceptor } from './interceptors/token.interceptor';
 
 
-const COMPONENTS = [
+const CORE_COMPONENTS = [
   MessagesComponent,
   ToolbarComponent,
   PageNotFoundComponent,
@@ -28,9 +28,9 @@ const MODULES = [
 ]
 
 @NgModule({
-  declarations: [COMPONENTS, ConfirmationDialogComponent],
+  declarations: [CORE_COMPONENTS, ConfirmationDialogComponent],
   imports: [CommonModule, MODULES],
-  exports: [COMPONENTS, MODULES],
+  exports: [CORE_COMPONENTS],
   providers:[
     {
       provide: HTTP_INTERCEPTORS,
